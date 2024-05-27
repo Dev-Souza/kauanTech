@@ -14,7 +14,7 @@ async function create(req, res) {
 }
 
 async function getAll(req, res) {
-    res.json(await Review.find());
+    res.json(await Review.find().populate(['produto', 'cliente']));
 }
 
 async function getById(req, res) {

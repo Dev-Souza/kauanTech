@@ -5,6 +5,7 @@ const router = express.Router();
 const ClienteController = require('../controllers/ClienteController');
 const ProdutoController = require('../controllers/ProdutoController');
 const ReviewController = require('../controllers/ReviewController');
+const CarrinhoController = require('../controllers/CarrinhoController');
 
 //Importando o validador
 // Validações de cliente
@@ -15,6 +16,9 @@ const { produtoValidador, alterarProduto } = require('../validators/ProdutoValid
 
 // Validações de Review
 const { reviewValidador, alterarReview } = require('../validators/ReviewValidator');
+
+// Validações de Carrinho
+const { carrinhoValidador, alterarCarrinho } = require('../validators/CarrinhoValidator');
 
 // Validação de ID
 const { validarId } = require('../validators/validarId');
@@ -40,5 +44,12 @@ router.get('/reviews', checarToken, ReviewController.getAll);
 router.get('/reviews/:id', checarToken, validarId, ReviewController.getById)
 router.put('/reviews/:id', checarToken, validarId, alterarReview, ReviewController.update)
 router.delete('/reviews/:id', checarToken, validarId, ReviewController.deletar)
+
+// Rota de Carrinho
+router.post('/carrinhos', checarToken, carrinhoValidador, CarrinhoController.create)
+router.get('/carrinhos', checarToken, CarrinhoController.getAll);
+router.get('/carrinhos/:id', checarToken, validarId, CarrinhoController.getById)
+router.put('/carrinhos/:id', checarToken, validarId, alterarCarrinho, CarrinhoController.update)
+router.delete('/carrinhos/:id', checarToken, validarId, CarrinhoController.deletar)
 
 module.exports = router;

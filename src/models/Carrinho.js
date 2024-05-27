@@ -20,9 +20,12 @@ const schema = new mongoose.Schema(
             required: true
         },
         produto: [{
-            type: mongoose.SchemaTypes.ObjectId,
-            ref: 'produto',
-            required: true
+            id: {
+                type: mongoose.SchemaTypes.ObjectId,
+                ref: 'produto',
+                required: true
+            },
+            quantidade: Number
         }]
     },
     {
