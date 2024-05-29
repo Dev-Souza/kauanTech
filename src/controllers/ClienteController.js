@@ -104,12 +104,8 @@ async function login(req, res) {
     const cliente = await Cliente.findOne({ email });
 
     if (!cliente) {
-        console.log("Cliente não cadastrado!");
         return res.status(401).json({ mensagem: "Cliente não cadastrado!" });
     }
-
-    console.log(`Cliente encontrado: ${cliente.email}`);
-    console.log(`Senha armazenada (hash): ${cliente.senha}`);
 
     const senhaValida = await bcrypt.compare(senha, cliente.senha);
 
