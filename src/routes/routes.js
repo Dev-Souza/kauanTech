@@ -51,5 +51,6 @@ router.get('/carrinhos', checarToken, CarrinhoController.getAll);
 router.get('/carrinhos/:id', checarToken, validarId, CarrinhoController.getById)
 router.put('/carrinhos/:id', checarToken, validarId, alterarCarrinho, CarrinhoController.update)
 router.delete('/carrinhos/:id', checarToken, validarId, CarrinhoController.deletar)
+router.delete('/carrinhos/:id/retirar', checarToken, validarId, CarrinhoController.retirarItemCarrinho)
 
 module.exports = router;

@@ -14,15 +14,12 @@ const produtoSchema = yup.object().shape({
 // Schema para validar o carrinho
 const carrinhoSchema = yup.object().shape({
     total_precos: yup
-        .number('Campo total preços tem que ser um número!')
-        .required('Campo total preços obrigatório!'),
+        .number('Campo total preços tem que ser um número!'),
     data_criacao: yup
-        .date('Campo data criação precisa ser uma data!')
-        .required('Campo data criação obrigatório!'),
+        .date('Campo data criação precisa ser uma data!'),
     status: yup
         .string('Campo status precisa ser uma string!')
-        .oneOf(['aberto', 'pago'], 'Campo status precisa ser "aberto" ou "pago"!')
-        .required('Campo status obrigatório!'),
+        .oneOf(['aberto', 'pago'], 'Campo status precisa ser "aberto" ou "pago"!'),
     cliente: yup
         .string()
         .required('Precisa-se informar quem é o cliente!')

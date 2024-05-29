@@ -3,16 +3,15 @@ const mongoose = require('mongoose')
 const schema = new mongoose.Schema(
     {
         total_precos: {
-            type: Number,
-            required: true
+            type: Number
         },
         data_criacao: {
             type: Date,
-            required: true,
+            default: Date.now
         },
         status: {
             type: String,
-            required: true,
+            enum: ['aberto', 'pago'] // Permitir apenas os valores "aberto" e "pago"
         },
         cliente: {
             type: mongoose.SchemaTypes.ObjectId,
