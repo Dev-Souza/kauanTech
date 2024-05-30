@@ -8,7 +8,7 @@ const schema = new mongoose.Schema(
         },
         data_pagamento: {
             type: Date,
-            required: true,
+            default: Date.now
         },
         total_pagar: {
             type: Number,
@@ -16,7 +16,8 @@ const schema = new mongoose.Schema(
         },
         status: {
             type: String,
-            required: true,
+            enum: ['pago'], //"pago"
+            default: "pago"
         },
         carrinho: {
             type: mongoose.SchemaTypes.ObjectId,
