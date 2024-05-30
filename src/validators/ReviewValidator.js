@@ -7,15 +7,8 @@ const reviewSchema = yup.object().shape({
     comentario: yup
         .string()
         .required('Campo comentário obrigatório!'),
-    data: yup
-        .number('Campo preço precisa ser um número!')
-        .required('Campo preço obrigatório!'),
-    quantidade: yup
-        .number('Campo quantidade precisar ser um número!')
-        .required('Campo quantidade obrigatório!'),
     data_review: yup
-        .date('Data inválida!')
-        .required('Campo data de nascimento obrigatório!'),
+        .date('Data inválida!'),
     produto: yup
         .string()
         .required('Precisa-se informar qual é o produto!'),
@@ -46,14 +39,14 @@ function reviewValidador(req, res, next) {
 }
 
 function alterarReview(req, res, next) {
-    if(req.body.produto && req.body.cliente){
+    if(req.params.id){
         if(req.body.rating || req.body.comentario){
             next()
         }else {
             return res.status(400).json({mensagem: "Precisa informar algum campo para ser alterado!"})
         }
     }else{
-        return res.status(400).json({mensagem: "O produto e o cliente precisa ser informado!"})
+        return res.status(400).json({mensagem: "O review precisa ser informado para ser alterado!"})
     }
 }
 

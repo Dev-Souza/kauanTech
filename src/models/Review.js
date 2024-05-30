@@ -12,7 +12,7 @@ const schema = new mongoose.Schema(
         },
         data_review: {
             type: Date,
-            required: true,
+            default: Date.now
         },
         produto: {
             type: mongoose.SchemaTypes.ObjectId,
