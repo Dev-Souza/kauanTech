@@ -92,12 +92,16 @@ async function retirarItemCarrinho(req, res) {
                         carrinhoExistente.produto = carrinhoExistente.produto.filter(p => p.id !== item.id);
                     }
 
+                    // Devolver a quantidade para o estoque
+                    produtoEncontrado.quantidade += itemParaSubtrair.quantidade
+                    await produtoEncontrado.save();
+
                     // Verifica se o carrinho não tem nenhum produto e, se não tiver, EXCLUI o carrinho
                     if (carrinhoExistente.produto.length === 0) {
                         await Carrinho.findByIdAndDelete(req.params.id);
                         return res.json({ mensagem: "Carrinho excluído porque não há produtos nele." });
                     }
-                    
+
                     await carrinhoExistente.save();
                     return res.json({ mensagem: "Quantidade atualizada com sucesso!" });
                 } else {

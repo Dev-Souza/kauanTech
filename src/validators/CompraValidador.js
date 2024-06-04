@@ -7,8 +7,7 @@ const compraSchema = yup.object().shape({
     data_pagamento: yup
         .date("Este campo precisa ser uma data!"),
     total_pagar: yup
-        .number('Campo total a pagar precisa ser um número!')
-        .required('Campo total a pagar obrigatório!'),
+        .number('Campo total a pagar precisa ser um número!'),
     status: yup
         .string('Campo status precisa ser uma string!')
         .oneOf(['pago'], 'Campo status precisa ser "pago"!'),
