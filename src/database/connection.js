@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
-require('dotenv').config()
 
-const DB_USERNAME = process.env.DB_USERNAME
-const DB_PASSWORD = process.env.DB_PASSWORD
-const DB_HOST = process.env.DB_HOST
-const DB_NAME = process.env.DB_NAME
 
-function main() {
-    mongoose.connect(`mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority&appName=databaseAPI`)
-    .then(() => console.log('Banco conectado com sucesso!'))
-    .catch(erro => console.log('Erro ao se conectar no banco Mongo: ', erro))
+const connection = () => {
+    // Certifique-se de que a variável de ambiente DB_NAME esteja definida
+    const DB_NAME = process.env.DB_NAME;
+
+    // Monta a URI com o nome do banco
+    const uri = `mongodb://localhost:27017/${DB_NAME}`;
+
+    // Conecta ao MongoDB local
+    mongoose.connect(uri)
+        .then(() => console.log('Conectado ao MongoDB local!'))
+        .catch(err => console.error('Erro na conexão:', err));
 }
 
-module.exports = main
+module.exports = connection
