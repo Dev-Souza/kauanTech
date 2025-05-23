@@ -30,6 +30,11 @@ const schema = new mongoose.Schema(
             localidade: String,
             uf: String,
             numero: String
+        },
+        role: {
+            type: String,
+            enum: ['user', 'admin'], //roles possíveis
+            default: 'user'
         }
     },
     {
