@@ -15,7 +15,7 @@ async function create(req, res) {
         const senhaHash = await bcrypt.hash(senha, 10);
 
         // Crie uma nova instância do modelo Cliente com a senha hashada
-        const cliente = new Cliente({ ...clienteData, senha: senhaHash });
+        const cliente = new Cliente({ ...clienteData, senha: senhaHash, role: req.body.role || 'user' });
 
         // Valide o telefone
         const telefoneValido = validatePhoneNumber(cliente.telefone, 'BR');
@@ -110,11 +110,10 @@ async function login(req, res) {
     const senhaValida = await bcrypt.compare(senha, cliente.senha);
 
     if (!senhaValida) {
-        console.log("Senha inválida!");
         return res.status(401).json({ mensagem: "Email ou senha inválidos!" });
     }
 
-    const token = jwt.sign({ email: cliente.email }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ email: cliente.email, role: cliente.role}, JWT_SECRET, { expiresIn: '1h' });
 
     res.json({
         mensagem: "Login efetuado!",

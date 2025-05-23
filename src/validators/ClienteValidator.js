@@ -75,19 +75,6 @@ function loginValidador(req, res, next) {
         })
 }
 
-async function checarToken(req, res, next) {
-    try {
-        const authorizationHeader = req.get('Authorization')
-        const separator = authorizationHeader.split(' ')
-        const token = separator[1]
-
-        jwt.verify(token, JWT_SECRET)
-        next()
-    } catch (error) {
-        return res.status(401).json({ mensagem: "Token inválido" })
-    }
-}
-
 function alterarCliente(req, res, next) {
     if (req.params.id) {
         if (req.body.nome || req.body.cpf || req.body.email || req.body.senha || req.body.telefone || req.body.endereco) {
@@ -103,6 +90,5 @@ function alterarCliente(req, res, next) {
 module.exports = {
     clienteValidador,
     loginValidador,
-    checarToken,
     alterarCliente
 }
