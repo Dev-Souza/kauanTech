@@ -117,7 +117,8 @@ async function login(req, res) {
 
     res.json({
         mensagem: "Login efetuado!",
-        token: token
+        token: token,
+        role: cliente.role
     });
 }
 
