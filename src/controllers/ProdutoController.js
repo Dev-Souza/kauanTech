@@ -9,7 +9,7 @@ async function create(req, res) {
         quantidade: Number(req.body.quantidade),
         descricao: req.body.descricao,
         categoria: categoria.toUpperCase(),
-        status: "Ativo"
+        status: req.body.status
     })
     const produtoCriado = await produto.save()
     res.status(201).json(produtoCriado);
