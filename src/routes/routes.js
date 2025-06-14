@@ -1,6 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
+const multer = require('multer');
+const path = require('path');
+// Configura storage do multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '..', 'uploads'));;
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+  }
+});
+
+const upload = multer({ storage });
+
 // Controllers
 const ClienteController = require('../controllers/ClienteController');
 const ProdutoController = require('../controllers/ProdutoController');
@@ -43,10 +59,10 @@ router.get('/admin', checarToken, verificarRole(['admin']), (req, res) => {
 });
 
 // Rota de Produto
-router.post('/produtos', checarToken, produtoValidador, verificarRole(['admin']), ProdutoController.create)
+router.post('/produtos', upload.single('imagem'), checarToken, produtoValidador, verificarRole(['admin']), ProdutoController.create)
 router.get('/produtos', ProdutoController.getAll);
 router.get('/produtos/:id', checarToken, validarId, verificarRole(['admin']), ProdutoController.getById)
-router.put('/produtos/:id', checarToken, validarId, alterarProduto, verificarRole(['admin']), ProdutoController.update)
+router.put('/produtos/:id', upload.single('imagem'), checarToken, validarId, alterarProduto, verificarRole(['admin']), ProdutoController.update)
 router.delete('/produtos/:id', checarToken, validarId, verificarRole(['admin']), ProdutoController.deletar)
 
 // Rota de Review

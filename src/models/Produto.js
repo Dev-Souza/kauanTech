@@ -29,6 +29,10 @@ const schema = new mongoose.Schema(
         status: {
             type: String,
             required: true
+        },
+        imagem: {
+            type: String, // Armazena o caminho ou URL da imagem
+            required: false,
         }
     },
     {
