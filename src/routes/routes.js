@@ -44,7 +44,7 @@ router.get('/admin', checarToken, verificarRole(['admin']), (req, res) => {
 
 // Rota de Produto
 router.post('/produtos', checarToken, produtoValidador, verificarRole(['admin']), ProdutoController.create)
-router.get('/produtos', checarToken, verificarRole(['admin']), ProdutoController.getAll);
+router.get('/produtos', ProdutoController.getAll);
 router.get('/produtos/:id', checarToken, validarId, verificarRole(['admin']), ProdutoController.getById)
 router.put('/produtos/:id', checarToken, validarId, alterarProduto, verificarRole(['admin']), ProdutoController.update)
 router.delete('/produtos/:id', checarToken, validarId, verificarRole(['admin']), ProdutoController.deletar)
