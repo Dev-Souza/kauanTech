@@ -113,7 +113,7 @@ async function login(req, res) {
         return res.status(401).json({ mensagem: "Email ou senha inválidos!" });
     }
 
-    const token = jwt.sign({ email: cliente.email, role: cliente.role}, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ nome: cliente.nome, email: cliente.email, role: cliente.role}, JWT_SECRET, { expiresIn: '1h' });
 
     res.json({
         mensagem: "Login efetuado!",
