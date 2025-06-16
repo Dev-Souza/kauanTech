@@ -96,10 +96,29 @@ async function deletar(req, res) {
     }
 }
 
+async function buscarProdutoPorNome(req, res) {
+    try {
+        const nome = req.query.nome;
+
+        if (!nome) {
+            return res.status(400).json({ mensagem: "Nome não fornecido para busca." })
+        }
+
+        const produtos = await Produto.find({
+            nome: { $regex: nome, $options: "i" } // LIKE '%nome%' ignorando maiúsculas/minúsculas
+        })
+
+        res.json(produtos)
+    } catch (error) {
+        res.status(500).json({ mensagem: "Erro ao buscar produtos", erro: error.message });
+    }
+}
+
 module.exports = {
     create,
     getById,
     getAll,
     update,
-    deletar
+    deletar,
+    buscarProdutoPorNome
 }

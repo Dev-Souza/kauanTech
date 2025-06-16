@@ -59,6 +59,8 @@ router.get('/admin', checarToken, verificarRole(['admin']), (req, res) => {
 });
 
 // Rota de Produto
+// Buscar por nome
+router.get('/produtos/buscar', ProdutoController.buscarProdutoPorNome)
 router.post('/produtos', upload.single('imagem'), checarToken, produtoValidador, verificarRole(['admin']), ProdutoController.create)
 router.get('/produtos', ProdutoController.getAll);
 router.get('/produtos/:id', ProdutoController.getById)
