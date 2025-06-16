@@ -1,5 +1,6 @@
 const Carrinho = require('../models/Carrinho');
 const Produto = require('../models/Produto');
+const Cliente = require('../models/Cliente');
 
 async function create(req, res) {
     const { cliente, produto } = req.body;
@@ -135,6 +136,38 @@ async function getAll(req, res) {
     }
 }
 
+async function getCarrinhoAbertoByEmail(req, res) {
+    try {
+        const { email } = req.query;
+
+        // Verificar se o cliente existe
+        const clienteExistente = await Cliente.findOne({ email });
+        if (!clienteExistente) {
+            return res.status(404).json({ mensagem: "Esse cliente informado não existe!" });
+        }
+
+        // Buscar o carrinho aberto do cliente
+        const carrinhoExistente = await Carrinho.findOne({ cliente: clienteExistente._id, status: 'aberto' })
+            .populate({
+                path: 'cliente',
+                select: 'nome email'
+            })
+            .populate({
+                path: 'produto.id',
+                select: 'nome preco'
+            });
+
+        if (!carrinhoExistente) {
+            return res.status(200).json({ mensagem: "Nenhum carrinho aberto encontrado para esse cliente." });
+        }
+
+        return res.status(200).json(carrinhoExistente);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensagem: "Erro ao buscar carrinho", error });
+    }
+}
+
 async function getById(req, res) {
     try {
         const carrinho = await Carrinho.findById(req.params.id).populate({
@@ -186,5 +219,6 @@ module.exports = {
     getAll,
     update,
     deletar,
-    retirarItemCarrinho
+    retirarItemCarrinho,
+    getCarrinhoAbertoByEmail
 };
