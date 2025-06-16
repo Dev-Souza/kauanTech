@@ -168,6 +168,35 @@ async function getCarrinhoAbertoByEmail(req, res) {
     }
 }
 
+async function getQtdInCarrinhoByEmail(req, res) {
+    try {
+        const { email } = req.query;
+
+        // Verifica se o cliente existe
+        const clienteExistente = await Cliente.findOne({ email });
+        if (!clienteExistente) {
+            return res.status(404).json({ mensagem: "Esse cliente informado não existe!" });
+        }
+
+        // Busca o carrinho aberto do cliente
+        const carrinhoExistente = await Carrinho.findOne({
+            cliente: clienteExistente._id,
+            status: 'aberto'
+        });
+
+        if (!carrinhoExistente) {
+            return res.status(200).json({ quantidade: 0 });
+        }
+
+        // Calcula a quantidade total de produtos (soma de todas as quantidades)
+        const quantidadeTotal = carrinhoExistente.produto.reduce((total, item) => total + item.quantidade, 0);
+
+        return res.status(200).json({ quantidade: quantidadeTotal });
+    } catch (error) {
+        return res.status(500).json({ mensagem: "Erro ao buscar quantidade no carrinho", error });
+    }
+}
+
 async function getById(req, res) {
     try {
         const carrinho = await Carrinho.findById(req.params.id).populate({
@@ -220,5 +249,6 @@ module.exports = {
     update,
     deletar,
     retirarItemCarrinho,
-    getCarrinhoAbertoByEmail
+    getCarrinhoAbertoByEmail,
+    getQtdInCarrinhoByEmail
 };
