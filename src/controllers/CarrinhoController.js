@@ -154,7 +154,7 @@ async function getCarrinhoAbertoByEmail(req, res) {
             })
             .populate({
                 path: 'produto.id',
-                select: 'nome preco'
+                select: 'nome preco imagem'
             });
 
         if (!carrinhoExistente) {
