@@ -204,7 +204,7 @@ async function getById(req, res) {
             select: 'nome cpf telefone'
         }).populate({
             path: 'produto.id',
-            select: 'nome preco'
+            select: 'nome preco imagem'
         });
         if (carrinho) {
             res.json(carrinho);
