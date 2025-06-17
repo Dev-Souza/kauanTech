@@ -75,6 +75,35 @@ async function update(req, res) {
     }
 }
 
+async function updateEndereco(req, res) {
+    try {
+        const { id } = req.params; // ID do cliente vindo da rota
+
+        const endereco = {
+            cep: req.body.cep,
+            logradouro: req.body.logradouro,
+            bairro: req.body.bairro,
+            localidade: req.body.localidade,
+            numero: req.body.numero,
+            uf: req.body.uf
+        };
+
+        const clienteAtualizado = await Cliente.findByIdAndUpdate(
+            id,
+            { endereco: endereco },
+            { new: true } // retorna o cliente já atualizado
+        );
+
+        if (!clienteAtualizado) {
+            return res.status(404).json({ mensagem: "Cliente não encontrado" });
+        }
+
+        res.status(200).json(clienteAtualizado);
+    } catch (error) {
+        res.status(500).json({ mensagem: "Erro ao atualizar endereço", error });
+    }
+}
+
 async function deletar(req, res) {
     const clienteExcluido = await Cliente.findByIdAndDelete(req.params.id);
     if (clienteExcluido) {
@@ -113,7 +142,7 @@ async function login(req, res) {
         return res.status(401).json({ mensagem: "Email ou senha inválidos!" });
     }
 
-    const token = jwt.sign({ id: cliente._id, nome: cliente.nome, email: cliente.email, role: cliente.role}, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: cliente._id, nome: cliente.nome, email: cliente.email, role: cliente.role }, JWT_SECRET, { expiresIn: '1h' });
 
     res.json({
         mensagem: "Login efetuado!",
@@ -127,6 +156,7 @@ module.exports = {
     getById,
     getAll,
     update,
+    updateEndereco,
     deletar,
     login
 };

@@ -51,6 +51,7 @@ router.post('/auth/login', loginValidador, ClienteController.login)
 router.post('/clientes', clienteValidador, ClienteController.create);
 router.get('/clientes', checarToken, verificarRole(['admin']), ClienteController.getAll);
 router.get('/clientes/:id', checarToken, validarId, ClienteController.getById);
+router.put('/clientes/:id/endereco', checarToken, validarId, ClienteController.updateEndereco)
 router.put('/clientes/:id', checarToken, validarId, alterarCliente, ClienteController.update);
 router.delete('/clientes/:id', checarToken, validarId, ClienteController.deletar);
 // Validação que tem que ser feita no front
