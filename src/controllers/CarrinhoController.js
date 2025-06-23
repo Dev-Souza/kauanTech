@@ -168,6 +168,30 @@ async function getCarrinhoAbertoByEmail(req, res) {
     }
 }
 
+async function getCarrinhoPagoByIdUser(req, res) {
+    try {
+        const idUser = req.params.idUser
+        if (idUser) {
+            const carrinhosPagos = await Carrinho.find({
+                cliente: idUser,
+                status: 'pago'
+            })
+
+            // Caso não venha nenhum carrinho pago é pq não foi feito nenhuma compra
+            if ((await carrinhosPagos).length < 1) {
+                return res.status(204).json({ mensagem: "Nenhuma compra realizada" });
+            }
+            // Caso venha algum carrinho
+            return res.status(200).json(carrinhosPagos)
+        } else {
+            return res.status(404).json({mensagem: "ID não foi passado"})
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensagem: "Erro ao buscar compras" }, error);
+    }
+}
+
 async function getQtdInCarrinhoByEmail(req, res) {
     try {
         const { email } = req.query;
@@ -250,5 +274,6 @@ module.exports = {
     deletar,
     retirarItemCarrinho,
     getCarrinhoAbertoByEmail,
-    getQtdInCarrinhoByEmail
+    getQtdInCarrinhoByEmail,
+    getCarrinhoPagoByIdUser
 };

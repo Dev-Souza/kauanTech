@@ -76,6 +76,7 @@ router.put('/reviews/:id', checarToken, validarId, alterarReview, ReviewControll
 router.delete('/reviews/:id', checarToken, validarId, ReviewController.deletar)
 
 // Rota de Carrinho
+router.get('/carrinhos/pago/:idUser', checarToken, CarrinhoController.getCarrinhoPagoByIdUser)
 router.get('/carrinhos/existente', checarToken, CarrinhoController.getCarrinhoAbertoByEmail)
 router.get('/carrinhos/qtd', checarToken, CarrinhoController.getQtdInCarrinhoByEmail)
 router.post('/carrinhos', checarToken, carrinhoValidador, CarrinhoController.create)
